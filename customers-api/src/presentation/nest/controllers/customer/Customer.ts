@@ -17,7 +17,6 @@ import { CreateCustomerRequestDto } from '../../../../domain/dtos/customer/Creat
 import { ReadCustomersRequestDto } from '../../../../domain/dtos/customer/ReadCustomers';
 import { UpdateCustomerRequestDto } from '../../../../domain/dtos/customer/Update';
 import { Customer } from '../../../../domain/entities/Customer';
-import { Public } from '../../helpers/customDecorator/Public';
 import { AbstractCustomerManager } from '../../managers/Customer';
 
 /**
@@ -34,7 +33,6 @@ export class CustomersController implements AbstractCustomersController {
    * @returns {Promise<Customer>} A promise resolving to the created customer.
    */
   @Post()
-  @Public()
   async create(
     @Body() createCustomerRequestDto: CreateCustomerRequestDto,
   ): Promise<Customer> {
