@@ -20,17 +20,6 @@ model Customer {
   lastName     String
   password     String
   createdAt    DateTime      @default(now())
-  RefreshToken RefreshToken?
 
   @@map("customers")
-}
-
-model RefreshToken {
-  id          String   @id @default(uuid())
-  expires_in  Int
-  customer_id String   @unique
-  customer    Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-
-  @@map("refresh_token")
 }
