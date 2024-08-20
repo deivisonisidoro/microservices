@@ -19,4 +19,8 @@ export class ReadCustomerRequestDto {
    * @example '123e4567-e89b-12d3-a456-426614174000'
    */
   externalId?: string;
+  constructor( email: string, externalId: string){
+    this.email= email;
+    this.externalId = externalId;
+  }
 }

@@ -40,7 +40,7 @@ export abstract class AbstractCustomerRepository {
    * @param {string} customerId - The ID of the customer to delete.
    * @returns {Promise<boolean>} A promise resolving to true if the customer was deleted successfully, false otherwise.
    */
-  abstract deleteCustomer(customerId: string): Promise<boolean>;
+  abstract deleteCustomer(customerId: string | undefined): Promise<boolean>;
 
   /**
    * Retrieves all customers.

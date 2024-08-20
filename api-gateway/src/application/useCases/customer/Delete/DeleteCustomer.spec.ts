@@ -1,3 +1,4 @@
+import { ReadCustomerRequestDto } from '../../../../domain/dtos/customer/ReadCustomer';
 import { CustomerErrorMessageEnum } from '../../../../domain/enums/customer/ErrorMessage';
 import { left } from '../../../../domain/utils/either/either';
 import { RequiredParametersError } from '../../../../domain/utils/errors/RequiredParametersError';
@@ -13,6 +14,10 @@ describe('DeleteCustomerUseCase', () => {
       400,
     ),
   );
+  const customerDTO = new  ReadCustomerRequestDto(
+    "test@email.com",
+    "test-id",
+  )
 
   beforeEach(() => {
     customerRepository = {
@@ -26,7 +31,7 @@ describe('DeleteCustomerUseCase', () => {
   it('should return error when customer does not exist', async () => {
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue(null);
 
-    const result = await deleteCustomerUseCase.execute('customer_id');
+    const result = await deleteCustomerUseCase.execute(customerDTO);
 
     expect(result.isLeft()).toBe(true);
     expect(result.value).toBeInstanceOf(RequiredParametersError);
@@ -41,7 +46,7 @@ describe('DeleteCustomerUseCase', () => {
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue({});
     (customerRepository.deleteCustomer as jest.Mock).mockResolvedValue(true);
 
-    const result = await deleteCustomerUseCase.execute('customer_id');
+    const result = await deleteCustomerUseCase.execute(customerDTO);
 
     expect(result.isRight()).toBe(true);
     expect(result.value).toBe(true);
@@ -49,7 +54,7 @@ describe('DeleteCustomerUseCase', () => {
       id: 'customer_id',
     });
     expect(customerRepository.deleteCustomer).toHaveBeenCalledWith(
-      'customer_id',
+      customerDTO
     );
   });
 
@@ -57,13 +62,11 @@ describe('DeleteCustomerUseCase', () => {
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue({});
     (customerRepository.deleteCustomer as jest.Mock).mockResolvedValue(false);
 
-    const result = await deleteCustomerUseCase.execute('customer_id');
+    const result = await deleteCustomerUseCase.execute(customerDTO);
 
     expect(result.isRight()).toBe(true);
     expect(result.value).toBe(false);
-    expect(customerRepository.getCustomer).toHaveBeenCalledWith({
-      id: 'customer_id',
-    });
+    expect(customerRepository.getCustomer).toHaveBeenCalledWith(customerDTO);
     expect(customerRepository.deleteCustomer).toHaveBeenCalledWith(
       'customer_id',
     );

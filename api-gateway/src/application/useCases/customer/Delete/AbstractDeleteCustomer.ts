@@ -1,5 +1,6 @@
-import { Either } from 'src/domain/utils/either/either';
-import { RequiredParametersError } from 'src/domain/utils/errors/RequiredParametersError';
+import { Either } from '../../../../domain/utils/either/either';
+import { RequiredParametersError } from '../../../../domain/utils/errors/RequiredParametersError';
+import { ReadCustomerRequestDto } from '../../../../domain/dtos/customer/ReadCustomer';
 
 export type DeleteCustomerResponse = Either<RequiredParametersError, boolean>;
 
@@ -13,8 +14,8 @@ export abstract class AbstractDeleteCustomerUseCase {
   /**
    * Deletes a customer by ID.
    * @abstract
-   * @param {string} customerId - The ID of the customer to delete.
+   * @param {ReadCustomerRequestDto} data - The ID of the customer to delete.
    * @returns {Promise<DeleteCustomerResponse>} A promise resolving to true if the customer was deleted successfully, false otherwise.
    */
-  abstract execute(customerId: string): Promise<DeleteCustomerResponse>;
+  abstract execute(data: ReadCustomerRequestDto): Promise<DeleteCustomerResponse>;
 }
