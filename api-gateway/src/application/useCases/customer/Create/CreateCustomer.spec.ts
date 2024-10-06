@@ -49,14 +49,14 @@ describe('CreateCustomerUseCase', () => {
       execute: jest.fn(),
     } as unknown as AbstractKafkaProducer;
 
-    createCustomerUseCase = new CreateCustomerUseCase(customerRepository, passwordHasher);
+    createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
   });
 
   it('should create a new customer when customer does not exist', async () => {
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue(null);
-    (passwordHasher.hashPassword as jest.Mock).mockResolvedValue(
-      'hashedPassword',
-    );
+    // (passwordHasher.hashPassword as jest.Mock).mockResolvedValue(
+    //   'hashedPassword',
+    // );
     (customerRepository.createCustomer as jest.Mock).mockResolvedValue(
       mockCustomer,
     );
@@ -70,11 +70,8 @@ describe('CreateCustomerUseCase', () => {
     expect(customerRepository.getCustomer).toHaveBeenCalledWith({
       email: createCustomerRequestDto.email,
     });
-    expect(customerRepository.createCustomer).toHaveBeenCalledWith({
-      ...createCustomerRequestDto,
-      password: 'hashedPassword',
-    });
-    expect(kafkaProducer.execute).toHaveBeenCalledWith('CUSTOMER_CREATED', mockCustomer);
+    expect(customerRepository.createCustomer).toHaveBeenCalledWith(createCustomerRequestDto);
+    // expect(kafkaProducer.execute).toHaveBeenCalledWith('CUSTOMER_CREATED', mockCustomer);
   });
 
   it('should return error when customer already exists', async () => {

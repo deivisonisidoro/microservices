@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import  dayjs from 'dayjs';
 import { verify } from 'jsonwebtoken';
 
 import { AbstractTokenManagerProvider } from '../../application/providers/TokenMagerProvider';

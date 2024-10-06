@@ -25,19 +25,15 @@ describe('ReadCustomersUseCase', () => {
     const customersResponse: Customer[] = [
       {
         id: '1',
+        externalId: '1',
         email: 'test1@example.com',
         password: 'password',
-        firstName: 'test1',
-        lastName: 'test',
-        createdAt: new Date(),
       },
       {
         id: '2',
+        externalId: '2',
         email: 'test2@example.com',
         password: 'password',
-        firstName: 'test2',
-        lastName: 'test',
-        createdAt: new Date(),
       },
     ];
     (customerRepository.getCustomers as jest.Mock).mockResolvedValue(

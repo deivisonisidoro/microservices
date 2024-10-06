@@ -1,39 +1,27 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import * as dayjs from 'dayjs';
-
+import dayjs from 'dayjs';
+import { PrismaRefreshTokenRepository } from './PrismaRefreshToken';
 import { AbstractRefreshTokenRepository } from '../../application/repositories/RefreshToken';
 import { EnvironmentVariables } from '../configs/EnvironmentVariables';
-import { PrismaService } from '../database/nestPrisma/prisma.service';
-import { PrismaRefreshTokenRepository } from './PrismaRefreshToken';
+
+// Mock the PrismaService
+const prismaServiceMock = {
+  refreshToken: {
+    create: jest.fn(),
+    findFirst: jest.fn(),
+    delete: jest.fn(),
+  },
+};
 
 describe('PrismaRefreshTokenRepository', () => {
   let repository: AbstractRefreshTokenRepository;
-  let prismaService: PrismaService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        PrismaRefreshTokenRepository,
-        {
-          provide: PrismaService,
-          useValue: {
-            refreshToken: {
-              create: jest.fn(),
-              findFirst: jest.fn(),
-              delete: jest.fn(),
-            },
-          },
-        },
-      ],
-    }).compile();
-
-    repository = module.get<PrismaRefreshTokenRepository>(
-      PrismaRefreshTokenRepository,
-    );
-    prismaService = module.get<PrismaService>(PrismaService);
+  beforeEach(() => {
+    // Create an instance of the repository, passing the mocked PrismaService
+    repository = new PrismaRefreshTokenRepository(prismaServiceMock as any);
   });
 
   afterEach(() => {
+    // Clear all mock data between tests
     jest.clearAllMocks();
   });
 
@@ -55,13 +43,11 @@ describe('PrismaRefreshTokenRepository', () => {
         expires_in: expiresIn,
       };
 
-      (prismaService.refreshToken.create as jest.Mock).mockResolvedValue(
-        generatedToken,
-      );
+      prismaServiceMock.refreshToken.create.mockResolvedValue(generatedToken);
 
       const result = await repository.create(customerId);
 
-      expect(prismaService.refreshToken.create).toHaveBeenCalledWith({
+      expect(prismaServiceMock.refreshToken.create).toHaveBeenCalledWith({
         data: {
           customer_id: customerId,
           expires_in: expiresIn,
@@ -80,13 +66,11 @@ describe('PrismaRefreshTokenRepository', () => {
         expires_in: 123456,
       };
 
-      (prismaService.refreshToken.findFirst as jest.Mock).mockResolvedValue(
-        foundToken,
-      );
+      prismaServiceMock.refreshToken.findFirst.mockResolvedValue(foundToken);
 
       const result = await repository.findById(refreshTokenId);
 
-      expect(prismaService.refreshToken.findFirst).toHaveBeenCalledWith({
+      expect(prismaServiceMock.refreshToken.findFirst).toHaveBeenCalledWith({
         where: {
           id: refreshTokenId,
         },
@@ -104,13 +88,11 @@ describe('PrismaRefreshTokenRepository', () => {
         expires_in: 123456,
       };
 
-      (prismaService.refreshToken.findFirst as jest.Mock).mockResolvedValue(
-        foundToken,
-      );
+      prismaServiceMock.refreshToken.findFirst.mockResolvedValue(foundToken);
 
       const result = await repository.findByCustomerId(customerId);
 
-      expect(prismaService.refreshToken.findFirst).toHaveBeenCalledWith({
+      expect(prismaServiceMock.refreshToken.findFirst).toHaveBeenCalledWith({
         where: {
           customer_id: customerId,
         },
@@ -125,7 +107,7 @@ describe('PrismaRefreshTokenRepository', () => {
 
       await repository.delete(customerId);
 
-      expect(prismaService.refreshToken.delete).toHaveBeenCalledWith({
+      expect(prismaServiceMock.refreshToken.delete).toHaveBeenCalledWith({
         where: {
           customer_id: customerId,
         },

@@ -1,12 +1,25 @@
-import { PrismaClient } from '@prisma/client/scripts/default-index';
+import { PrismaClient } from '@prisma/client';
 import { PrismaCustomerRepository } from './PrismaCustomer';
+
+jest.mock('@prisma/client', () => ({
+  PrismaClient: jest.fn().mockImplementation(() => ({
+    customer: {
+      create: jest.fn(),
+      findFirst: jest.fn(),
+      findMany: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    },
+  })),
+}));
 
 describe('PrismaCustomerRepository', () => {
   let repository: PrismaCustomerRepository;
   let prisma: PrismaClient;
 
-  beforeEach(async () => {
-    repository = new PrismaCustomerRepository(prisma)
+  beforeEach(() => {
+    prisma = new PrismaClient();
+    repository = new PrismaCustomerRepository(prisma);
   });
 
   afterEach(() => {
@@ -20,26 +33,21 @@ describe('PrismaCustomerRepository', () => {
   describe('createCustomer', () => {
     it('should create a customer', async () => {
       const createCustomerDto = {
+        externalId: 'externalId',
         email: 'test@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
         password: 'password123',
       };
       const createdCustomer = { id: 'customerId', ...createCustomerDto };
 
-      (prisma.customer.create as jest.Mock).mockResolvedValue(
-        createdCustomer,
-      );
+      (prisma.customer.create as jest.Mock).mockResolvedValue(createdCustomer);
 
       const result = await repository.createCustomer(createCustomerDto);
 
       expect(prisma.customer.create).toHaveBeenCalledWith({
         data: {
-          email: createCustomerDto.email.toString(),
-          firstName: createCustomerDto.firstName,
-          lastName: createCustomerDto.lastName,
-          password: createCustomerDto.password.toString(),
-          createdAt: expect.any(Date),
+          externalId: createCustomerDto.externalId,
+          email: createCustomerDto.email,
+          password: createCustomerDto.password,
         },
       });
       expect(result).toEqual(createdCustomer);
@@ -51,13 +59,11 @@ describe('PrismaCustomerRepository', () => {
       const readCustomerDto = { email: 'test@example.com' };
       const foundCustomer = { id: 'customerId', ...readCustomerDto };
 
-      (prisma.customer.findUnique as jest.Mock).mockResolvedValue(
-        foundCustomer,
-      );
+      (prisma.customer.findFirst as jest.Mock).mockResolvedValue(foundCustomer);
 
       const result = await repository.getCustomer(readCustomerDto);
 
-      expect(prisma.customer.findUnique).toHaveBeenCalledWith({
+      expect(prisma.customer.findFirst).toHaveBeenCalledWith({
         where: {
           email: readCustomerDto.email,
         },
@@ -68,18 +74,20 @@ describe('PrismaCustomerRepository', () => {
 
   describe('getCustomers', () => {
     it('should retrieve customers based on criteria', async () => {
-      const readCustomersDto = { firstName: 'John' };
+      const readCustomersDto = {
+        externalId: 'externalId',
+        email: 'test@example.com',
+      };
       const foundCustomers = [{ id: 'customerId', ...readCustomersDto }];
 
-      (prisma.customer.findMany as jest.Mock).mockResolvedValue(
-        foundCustomers,
-      );
+      (prisma.customer.findMany as jest.Mock).mockResolvedValue(foundCustomers);
 
       const result = await repository.getCustomers(readCustomersDto);
 
       expect(prisma.customer.findMany).toHaveBeenCalledWith({
         where: {
-          firstName: readCustomersDto.firstName,
+          email: readCustomersDto.email,
+          externalId: readCustomersDto.externalId,
         },
       });
       expect(result).toEqual(foundCustomers);
@@ -89,12 +97,14 @@ describe('PrismaCustomerRepository', () => {
   describe('updateCustomer', () => {
     it('should update a customer', async () => {
       const customerId = 'customerId';
-      const updateCustomerDto = { firstName: 'Jane' };
+      const updateCustomerDto = {
+        externalId: 'externalId',
+        email: 'new@example.com',
+        password: 'newPassword123',
+      };
       const updatedCustomer = { id: customerId, ...updateCustomerDto };
 
-      (prisma.customer.update as jest.Mock).mockResolvedValue(
-        updatedCustomer,
-      );
+      (prisma.customer.update as jest.Mock).mockResolvedValue(updatedCustomer);
 
       const result = await repository.updateCustomer(
         customerId,
@@ -106,7 +116,7 @@ describe('PrismaCustomerRepository', () => {
           id: customerId,
         },
         data: {
-          firstName: updateCustomerDto.firstName,
+          email: updateCustomerDto.email,
         },
       });
       expect(result).toEqual(updatedCustomer);
@@ -123,7 +133,7 @@ describe('PrismaCustomerRepository', () => {
 
       expect(prisma.customer.delete).toHaveBeenCalledWith({
         where: {
-          id: customerId,
+          externalId: customerId,
         },
       });
       expect(result).toBe(true);

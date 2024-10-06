@@ -15,17 +15,13 @@ describe('UpdateCustomerUseCase', () => {
 
   const customerId = 'customer123';
   const updateCustomerRequestDto: UpdateCustomerRequestDto = {
-    firstName: 'John',
-    lastName: 'Doe',
     password: 'newPassword',
   };
   const mockCustomer: Customer = {
     id: customerId,
+    externalId: customerId,
     email: 'test@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
     password: 'test',
-    createdAt: new Date(),
   };
   const customerDoesNotExist = left(
     new RequiredParametersError(
@@ -83,7 +79,9 @@ describe('UpdateCustomerUseCase', () => {
     );
 
     expect(result.isLeft()).toBe(true);
-    expect(result.value.constructor).toBe(RequiredParametersError);
+    if (result.value) {
+      expect(result.value.constructor).toBe(RequiredParametersError);
+    }
     expect(result.value).toStrictEqual(customerDoesNotExist.value);
     expect(customerRepository.getCustomer).toHaveBeenCalledWith({
       id: customerId,

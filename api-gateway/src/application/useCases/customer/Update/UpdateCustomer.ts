@@ -41,7 +41,7 @@ export class UpdateCustomerUseCase implements AbstractUpdateCustomerUseCase {
     updateCustomerRequestDto: UpdateCustomerRequestDto,
   ): Promise<CustomerResponse> {
     const customer = await this.customerRepository.getCustomer({
-      id: customerId,
+      externalId: customerId,
     });
     if (!customer) {
       return left(

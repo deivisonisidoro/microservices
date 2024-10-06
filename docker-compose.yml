@@ -57,5 +57,34 @@ services:
     depends_on:
       - zoo1
 
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dev-db
+      - kafka1
+    environment:
+      - DATABASE_URL=postgresql://postgres:123@dev_db:5432/api-gateway?schema=public
+      - DATABASE_USER=postgres
+      - DATABASE_PASS=123
+      - DATABASE_HOST=dev_db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=api-gateway
+      - MAIL_HOST=smtp.ethereal.email
+      - MAIL_PORT=587
+      - MAIL_USER='berry.kiehn@ethereal.email'
+      - MAIL_PASS='KBQPmNAdkdASYQp2Hq'
+      - NODE_ENV=localhost
+      - SECRET_KEY=api_nest
+      - ACCESS_TOKEN_EXPIRES_IN=1h
+      - REFRESH_TOKEN_EXPIRES_IN=2
+      - HOST_IP=http://api-gateway:3000/
+      - PORT=3000
+    volumes:
+      - .:/app
+    command: ["node", "dist/presentation/server.js"]
 volumes:
   pgdata: {}

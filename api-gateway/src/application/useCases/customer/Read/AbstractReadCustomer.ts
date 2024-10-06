@@ -1,6 +1,5 @@
-import { Customer } from 'src/domain/entities/Customer';
-
 import { ReadCustomerRequestDto } from '../../../../domain/dtos/customer/ReadCustomer';
+import { Customer } from '../../../../domain/entities/Customer';
 import { Either } from '../../../../domain/utils/either/either';
 import { RequiredParametersError } from '../../../../domain/utils/errors/RequiredParametersError';
 

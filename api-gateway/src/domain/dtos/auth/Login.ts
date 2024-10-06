@@ -1,5 +1,3 @@
-import { IsNotEmpty } from 'class-validator';
-
 /**
  * Data transfer object (DTO) representing a login request.
  */
@@ -13,7 +11,6 @@ export class LoginRequestDTO {
    * description: The email address of the customer.
    * example: customer@example.com
    */
-  @IsNotEmpty()
   email: string;
 
   /**
@@ -25,6 +22,16 @@ export class LoginRequestDTO {
    * description: The password of the customer.
    * example: password123
    */
-  @IsNotEmpty()
   password: string;
+
+  /**
+   * Constructor to initialize LoginRequestDTO with email and password.
+   *
+   * @param email - The email address of the customer.
+   * @param password - The password of the customer.
+   */
+  constructor(email: string, password: string) {
+    this.email = email;
+    this.password = password;
+  }
 }

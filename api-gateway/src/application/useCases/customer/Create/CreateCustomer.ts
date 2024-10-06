@@ -2,7 +2,6 @@ import { CreateCustomerRequestDto } from '../../../../domain/dtos/customer/Creat
 import { CustomerErrorMessageEnum } from '../../../../domain/enums/customer/ErrorMessage';
 import { left, right } from '../../../../domain/utils/either/either';
 import { RequiredParametersError } from '../../../../domain/utils/errors/RequiredParametersError';
-import { AbstractPasswordHasher } from '../../../providers/PasswordHasher';
 import { AbstractCustomerRepository } from '../../../repositories/Customer';
 import {
   AbstractCreateCustomerUseCase,

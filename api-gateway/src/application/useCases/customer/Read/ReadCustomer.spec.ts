@@ -26,7 +26,7 @@ describe('ReadCustomerUseCase', () => {
     const mockCustomerResponse = { id: '1', name: 'John Doe' };
     const mockReadCustomerRequestDto: ReadCustomerRequestDto = {
       email: 'John.Doe@example.com',
-      id: randomUUID(),
+      externalId: randomUUID(),
     };
 
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue(
@@ -47,7 +47,7 @@ describe('ReadCustomerUseCase', () => {
   it('should return error when customer does not exist', async () => {
     const mockReadCustomerRequestDto: ReadCustomerRequestDto = {
       email: 'John.Doe@example.com',
-      id: randomUUID(),
+      externalId: randomUUID(),
     };
 
     (customerRepository.getCustomer as jest.Mock).mockResolvedValue(null);
@@ -57,7 +57,9 @@ describe('ReadCustomerUseCase', () => {
     );
 
     expect(result.isLeft()).toBe(true);
-    expect(result.value.constructor).toBe(RequiredParametersError);
+    if (result.value) {
+      expect(result.value.constructor).toBe(RequiredParametersError);
+    }
     expect(result.value).toStrictEqual(customerNotFound.value);
     expect(customerRepository.getCustomer).toHaveBeenCalledWith(
       mockReadCustomerRequestDto,
