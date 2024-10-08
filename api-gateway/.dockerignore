@@ -1,0 +1,40 @@
+# Ignore node_modules and other dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Ignore TypeScript source files
+*.ts
+*.tsx
+
+# Ignore test files
+*.spec.ts
+*.test.ts
+
+# Ignore build directories
+dist
+build
+
+# Ignore environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore editor settings and IDE configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Dockerfile or Docker-compose file (if not needed in final image)
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+docker-compose.dev.yml
+
+# Ignore miscellaneous files
+*.log
+*.swp
+*.lock
+.DS_Store

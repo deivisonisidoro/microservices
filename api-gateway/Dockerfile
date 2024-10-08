@@ -1,48 +1,36 @@
-# Etapa 1: Construir a aplicação
-FROM node:18 AS builder
+FROM node:22-alpine AS build
 
-# Definir o diretório de trabalho
 WORKDIR /app
 
-# Copiar os arquivos de configuração do pnpm e do projeto
-COPY package.json pnpm-lock.yaml ./
+COPY pnpm-lock.yaml .
+COPY package.json .
 
-# Instalar o pnpm
 RUN npm install -g pnpm
 
-# Instalar as dependências
 RUN pnpm install
 
-# Copiar o código-fonte
-COPY ./src ./src
+COPY . .
 
-# Compilar o TypeScript
-RUN pnpm run build
-
-# Aplicar migrações do Prisma (opcional, se você usar migrações)
 RUN pnpm exec prisma generate
-RUN pnpm exec prisma migrate deploy --schema=src/infra/databases/prisma/schema.prisma
 
-# Etapa 2: Criar a imagem final
-FROM node:18
+RUN pnpm build
 
-# Definir o diretório de trabalho
+FROM node:22-alpine AS production
+
 WORKDIR /app
 
-# Copiar os arquivos compilados da etapa anterior
-COPY --from=builder /app/dist ./dist
+COPY pnpm-lock.yaml .
+COPY package.json .
 
-# Copiar o arquivo de configuração de dependências
-COPY package.json ./
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/src/infra/databases/prisma/schema.prisma ./src/infra/databases/prisma/schema.prisma
 
-# Instalar as dependências de produção
-RUN pnpm install --prod
+RUN npm install -g pnpm
 
-RUN pnpm prisma generate 
+RUN pnpm install --prod --frozen-lockfile
+RUN pnpm exec prisma generate
 
 
-# Expor a porta que a API irá rodar
 EXPOSE 3000
-
 
 CMD ["node", "dist/presentation/server.js"]

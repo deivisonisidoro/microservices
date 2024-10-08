@@ -61,6 +61,7 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
+      target: production
     ports:
       - "3000:3000"
     depends_on:
@@ -83,8 +84,6 @@ services:
       - REFRESH_TOKEN_EXPIRES_IN=2
       - HOST_IP=http://api-gateway:3000/
       - PORT=3000
-    volumes:
-      - .:/app
-    command: ["node", "dist/presentation/server.js"]
+
 volumes:
   pgdata: {}
