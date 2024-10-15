@@ -4,10 +4,12 @@ services:
     ports:
       - 5432:5432
     restart: always
+    env_file:
+      - ./.env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nestjs
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -15,10 +17,12 @@ services:
     image: postgres:13
     ports:
       - 5435:5432
+    env_file:
+      - ./.env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nestjs
+      POSTGRES_USER: ${TEST_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${TEST_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${TEST_POSTGRES_DB}
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -50,24 +54,8 @@ services:
     depends_on:
       - db
       - kafka
-    environment:
-      DATABASE_URL: postgresql://postgres:123@db/api-gateway
-      DATABASE_USER: postgres
-      DATABASE_PASS: 123
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_NAME: api-gateway
-      MAIL_HOST: sandbox.smtp.mailtrap.io
-      MAIL_PORT: 2525
-      MAIL_USER: 93b18c8f2ae5c7
-      MAIL_PASS: 2a9ef42df82451
-      NODE_ENV: localhost
-      SECRET_KEY: api_nest
-      ACCESS_TOKEN_EXPIRES_IN: 1h
-      REFRESH_TOKEN_EXPIRES_IN: 2
-      HOST_IP: api-gateway
-      API_PORT: 3000
-      KAFKA_BROKER: kafka:9092
+    env_file:
+      - ./api-gateway/.env.production
 
   email-api:
     build:
@@ -79,24 +67,8 @@ services:
     depends_on:
       - db
       - kafka
-    environment:
-      DATABASE_URL: postgresql://postgres:123@db/email
-      DATABASE_USER: postgres
-      DATABASE_PASS: 123
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_NAME: email
-      MAIL_HOST: sandbox.smtp.mailtrap.io
-      MAIL_PORT: 2525
-      MAIL_USER: 93b18c8f2ae5c7
-      MAIL_PASS: 2a9ef42df82451
-      NODE_ENV: localhost
-      SECRET_KEY: api_nest
-      ACCESS_TOKEN_EXPIRES_IN: 1h
-      REFRESH_TOKEN_EXPIRES_IN: 2
-      HOST_IP: email-api
-      API_PORT: 3002
-      KAFKA_BROKER: kafka:9092
+    env_file:
+      - ./email-api/.env.production
 
   customers-api:
     build:
@@ -108,23 +80,8 @@ services:
     depends_on:
       - db
       - kafka
-    environment:
-      DATABASE_URL: postgresql://postgres:123@db/customer
-      DATABASE_USER: postgres
-      DATABASE_PASS: 123
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_NAME: customer
-      MAIL_HOST: sandbox.smtp.mailtrap.io
-      MAIL_PORT: 2525
-      MAIL_USER: 93b18c8f2ae5c7
-      MAIL_PASS: 2a9ef42df82451
-      NODE_ENV: localhost
-      SECRET_KEY: api_nest
-      ACCESS_TOKEN_EXPIRES_IN: 1h
-      REFRESH_TOKEN_EXPIRES_IN: 2
-      HOST_IP: customers-api
-      API_PORT: 3001
-      KAFKA_BROKER: kafka:9092
+    env_file:
+      - ./customers-api/.env.production
+
 volumes:
   pgdata: {}

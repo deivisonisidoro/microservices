@@ -151,4 +151,8 @@ export class EnvironmentVariables {
   public getKafkaBroker(): string {
     return process.env.KAFKA_BROKER || 'localhost';
   }
+
+  public geCustomerApiURL(): string {
+    return process.env.CUSTOMER_API_URL || 'http://localhost:3001';
+  }
 }
