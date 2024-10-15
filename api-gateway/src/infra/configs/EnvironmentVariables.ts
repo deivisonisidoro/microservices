@@ -133,6 +133,22 @@ export class EnvironmentVariables {
    * @returns The host IP address.
    */
   public getHostIp(): string {
-    return process.env.HOST_IP || ip.address();
+    return process.env.HOST_IP;
+  }
+
+  /**
+   * Retrieves the host port from environment variables or defaults to 3001 if not provided.
+   * @returns The host port number.
+   */
+  public getHostPort(): number {
+    return parseInt(process.env.API_PORT || '3000', 10);
+  }
+
+  /**
+   * Retrieves the host port from environment variables or defaults to 3001 if not provided.
+   * @returns The host port number.
+   */
+  public getKafkaBroker(): string {
+    return process.env.KAFKA_BROKER || 'localhost';
   }
 }

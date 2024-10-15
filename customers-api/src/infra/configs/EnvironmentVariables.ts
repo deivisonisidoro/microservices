@@ -135,4 +135,8 @@ export class EnvironmentVariables {
   public getHostIp(): string {
     return process.env.HOST_IP || ip.address();
   }
+
+  public getKafkaBroker(): string {
+    return process.env.KAFKA_BROKER || 'localhost';
+  }
 }

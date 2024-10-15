@@ -7,7 +7,7 @@ import { AppModule } from './src/presentation/nest/modules/app.module';
 
 async function bootstrap() {
   dotenv.config();
-  const PORT = process.env.PORT || 3333;
+  const PORT = process.env.API_PORT || 3001;
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());

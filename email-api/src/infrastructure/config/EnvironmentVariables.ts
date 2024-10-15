@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-import ip from 'ip';
 
 dotenv.config();
 /**
@@ -124,7 +123,7 @@ export class EnvironmentVariables {
    * @returns The host IP address.
    */
   public getHostIp(): string {
-    return process.env.HOST_IP || ip.address();
+    return process.env.HOST_IP;
   }
 
   /**
@@ -132,6 +131,10 @@ export class EnvironmentVariables {
    * @returns The host port number.
    */
   public getHostPort(): number {
-    return parseInt(process.env.API_PORT || '3001', 10);
+    return parseInt(process.env.API_PORT || '3002', 10);
+  }
+
+  public getKafkaBroker(): string {
+    return process.env.KAFKA_BROKER || 'localhost';
   }
 }
