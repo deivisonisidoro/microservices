@@ -137,4 +137,9 @@ export class EnvironmentVariables {
   public getKafkaBroker(): string {
     return process.env.KAFKA_BROKER || 'localhost';
   }
+  public getTemplateLocation(): string {
+    return (
+      process.env.TEMPLATE_LOCATION || '../../../src/infrastructure/templates/'
+    );
+  }
 }

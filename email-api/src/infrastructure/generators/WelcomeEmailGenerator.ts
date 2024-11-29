@@ -4,17 +4,18 @@ import * as path from 'path';
 
 import { EmailEntity } from '../../domain/entities/Email';
 import { EmailGeneratorInterface } from '../../domain/generators/emailGenerators/EmailGenerator';
+import { EnvironmentVariables } from '../config/EnvironmentVariables';
 
 /**
  * Class responsible for generating email content based on templates.
  */
 export class WelcomeEmailGenerator implements EmailGeneratorInterface {
   private templatePath: string;
-
+  private env = EnvironmentVariables.getInstance();
   constructor() {
     this.templatePath = path.resolve(
       __dirname,
-      '../../../src/infrastructure/templates/welcome.html',
+      `${this.env.getTemplateLocation()}/welcome.html`,
     );
   }
 
