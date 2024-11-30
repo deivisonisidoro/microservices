@@ -21,9 +21,8 @@ export class CreateCustomerUseCase implements CreateCustomerUseCaseInterface {
    */
   async execute(data: CreateCustomerDTO): Promise<void> {
     const customerEntity = await this.customerRepository.getByEmail(data.email);
-    if (customerEntity) {
-      return;
+    if (!customerEntity) {
+      await this.customerRepository.create(data);
     }
-    await this.customerRepository.create(data);
   }
 }

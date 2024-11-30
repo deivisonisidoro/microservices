@@ -10,8 +10,11 @@ export async function createCustomerConsumer() {
       const messageToString = message.value?.toString();
       if (messageToString) {
         const jsonObject = JSON.parse(messageToString);
+        await createCustomerComposer({
+          ...jsonObject,
+          externalId: jsonObject.id,
+        });
         await sendWelcomeEmailComposer(jsonObject);
-        await createCustomerComposer({...jsonObject, externalId: jsonObject.id})
       }
     },
   });
