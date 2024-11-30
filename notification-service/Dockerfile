@@ -23,7 +23,8 @@ COPY pnpm-lock.yaml .
 COPY package.json .
 
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/prisma/schema.prisma ./prisma/schema.prisma
+COPY --from=build /app/prisma/ ./prisma/
+COPY --from=build /app/src/infrastructure/templates/ ./dist/infrastructure/templates/
 
 RUN npm install -g pnpm
 
