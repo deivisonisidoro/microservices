@@ -11,8 +11,8 @@ The E-Commerce Template project provides a set of microservices that together fo
 The following microservices are included in this repository:
 
 1. [**API Gateway**]((api-gateway/README.md)): Handles incoming requests, manages authentication, and routes requests to the appropriate microservices
-2. [**Customers API**](customers-api/README.md): Manages customer information and authentication.
-3. [**Email API**](email-api/README.md): Responsible for sending emails, such as order confirmations and promotional emails. 
+2. [**Customers API**](customers-service/README.md): Manages customer information and authentication.
+3. [**Email API**](notification-service/README.md): Responsible for sending emails, such as order confirmations and promotional emails. 
 
 ## Getting Started with Docker Compose
 

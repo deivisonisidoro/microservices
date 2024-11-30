@@ -57,9 +57,9 @@ services:
     env_file:
       - ./api-gateway/.env.production
 
-  email-api:
+  notification-service:
     build:
-      context: ./email-api
+      context: ./notification-service
       dockerfile: Dockerfile
       target: production
     ports:
@@ -68,11 +68,11 @@ services:
       - db
       - kafka
     env_file:
-      - ./email-api/.env.production
+      - ./notification-service/.env.production
 
-  customers-api:
+  customers-service:
     build:
-      context: ./customers-api
+      context: ./customers-service
       dockerfile: Dockerfile
       target: production
     ports:
@@ -81,7 +81,7 @@ services:
       - db
       - kafka
     env_file:
-      - ./customers-api/.env.production
+      - ./customers-service/.env.production
 
 volumes:
   pgdata: {}
