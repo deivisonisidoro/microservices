@@ -32,5 +32,3 @@ RUN pnpm exec prisma generate
 
 
 EXPOSE 3000
-
-CMD ["node", "dist/presentation/server.js"]

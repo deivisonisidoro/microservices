@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import ip from 'ip';
 
 dotenv.config();
 
@@ -63,38 +62,6 @@ export class EnvironmentVariables {
    */
   public getDatabasePort(): number {
     return parseInt(process.env.DATABASE_PORT || '5432', 10);
-  }
-
-  /**
-   * Retrieves the mail host from environment variables.
-   * @returns The mail host.
-   */
-  public getMailHost(): string {
-    return process.env.MAIL_HOST || '';
-  }
-
-  /**
-   * Retrieves the mail port from environment variables.
-   * @returns The mail port.
-   */
-  public getMailPort(): number {
-    return parseInt(process.env.MAIL_PORT || '587', 10);
-  }
-
-  /**
-   * Retrieves the mail user from environment variables.
-   * @returns The mail user.
-   */
-  public getMailUser(): string {
-    return process.env.MAIL_USER || '';
-  }
-
-  /**
-   * Retrieves the mail password from environment variables.
-   * @returns The mail password.
-   */
-  public getMailPassword(): string {
-    return process.env.MAIL_PASS || '';
   }
 
   /**

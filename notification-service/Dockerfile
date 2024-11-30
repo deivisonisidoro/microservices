@@ -32,5 +32,3 @@ RUN pnpm exec prisma generate
 
 
 EXPOSE 3002
-
-CMD ["node", "dist/presentation/fastify/server.js"]

@@ -32,5 +32,3 @@ RUN pnpm exec prisma generate
 
 
 EXPOSE 3001
-
-CMD [ "node", "dist/main.js" ]

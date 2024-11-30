@@ -56,6 +56,7 @@ services:
       - kafka
     env_file:
       - ./api-gateway/.env.production
+    command: ["sh", "-c", "pnpm prisma migrate deploy && node dist/presentation/server.js"]
 
   notification-service:
     build:
@@ -69,6 +70,7 @@ services:
       - kafka
     env_file:
       - ./notification-service/.env.production
+    command: ["sh", "-c", "pnpm prisma migrate deploy && node dist/presentation/fastify/server.js"]
 
   customers-service:
     build:
@@ -82,6 +84,7 @@ services:
       - kafka
     env_file:
       - ./customers-service/.env.production
+    command: ["sh", "-c", "pnpm prisma migrate deploy && node dist/main.js"] # Rodar migrações e depois iniciar o serviço
 
 volumes:
   pgdata: {}
