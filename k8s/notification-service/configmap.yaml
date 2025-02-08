@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config
+data:
+  MAIL_HOST: "smtp.ethereal.email"
+  MAIL_PORT: "587"
+  MAIL_USER: "asha.champlin@ethereal.email"
+  MAIL_PASS: "qSFS9trPAzjHdQNk9q"
+  MAIL_FROM: "your-email@example.com"
+  
+  DATABASE_URL: "postgresql://postgres:123@db:5432/notification_serivice?schema=public"
+  DATABASE_USER: "postgres"
+  DATABASE_PASS: "123"
+  DATABASE_HOST: "db"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "notification_serivice"
+  NODE_ENV: "production"
+  HOST_IP: "notification_serivice"
+  API_PORT: "3002"
+  KAFKA_BROKER: "kafka:9092"
+  TEMPLATE_LOCATION: "../../../src/infrastructure/templates"

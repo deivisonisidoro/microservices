@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: 123
+  POSTGRES_DB: nestjs
+  DB_HOST: db
+  DB_PORT: 5432

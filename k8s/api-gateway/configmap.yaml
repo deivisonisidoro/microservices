@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+data:
+  DATABASE_URL: "postgresql://postgres:123@db:5432/api-gateway?schema=public"
+  DATABASE_USER: "postgres"
+  DATABASE_PASS: "123"
+  DATABASE_HOST: "db"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "api-gateway"
+  NODE_ENV: "production"
+  API_PORT: "3000"
+  KAFKA_BROKER: "kafka:9092"
