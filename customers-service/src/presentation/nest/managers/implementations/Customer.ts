@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { AbstractKafkaProducer } from '../../../../application/providers/kafka/producer';
 import { AbstractPasswordHasher } from '../../../../application/providers/PasswordHasher';
 import { AbstractCustomerRepository } from '../../../../application/repositories/Customer';
 import {
@@ -18,7 +19,6 @@ import { CreateCustomerRequestDto } from '../../../../domain/dtos/customer/Creat
 import { ReadCustomersRequestDto } from '../../../../domain/dtos/customer/ReadCustomers';
 import { UpdateCustomerRequestDto } from '../../../../domain/dtos/customer/Update';
 import { AbstractCustomerManager } from '../Customer';
-import { AbstractKafkaProducer } from '../../../../application/providers/kafka/producer';
 
 /**
  * Implementation of the service handling customer operations.
