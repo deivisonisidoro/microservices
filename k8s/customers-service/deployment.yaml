@@ -15,8 +15,11 @@ spec:
       containers:
         - name: customers-service
           image: deivisonisidoro/customers-service:latest
+          command: ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/presentation/nest/main.js"]
+          imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
                 name: customers-service-config
           ports:
             - containerPort: 3001
+              name: http

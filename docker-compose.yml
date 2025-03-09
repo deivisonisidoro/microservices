@@ -49,6 +49,7 @@ services:
       context: ./api-gateway
       dockerfile: Dockerfile
       target: production
+    image: deivisonisidoro/api-gateway:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -63,6 +64,7 @@ services:
       context: ./notification-service
       dockerfile: Dockerfile
       target: production
+    image: deivisonisidoro/notification-service:latest
     ports:
       - "3002:3002"
     depends_on:
@@ -77,6 +79,7 @@ services:
       context: ./customers-service
       dockerfile: Dockerfile
       target: production
+    image: deivisonisidoro/customers-service:latest
     ports:
       - "3001:3001"
     depends_on:
@@ -84,7 +87,7 @@ services:
       - kafka
     env_file:
       - ./customers-service/.env.production
-    command: ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/main.js"] # Rodar migrações e depois iniciar o serviço
+    command: ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/presentation/nest/main.js"] 
 
 volumes:
   pgdata: {}

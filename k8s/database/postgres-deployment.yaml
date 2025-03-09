@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: db
   template:
     metadata:
       labels:
-        app: postgres
+        app: db
     spec:
       containers:
-        - name: postgres
+        - name: db
           image: postgres:13
           envFrom:
             - configMapRef:
-                name: postgres-config
+                name: db-config
           ports:
             - containerPort: 5432

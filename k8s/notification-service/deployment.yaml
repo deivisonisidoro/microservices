@@ -15,8 +15,10 @@ spec:
       containers:
         - name: notification-service
           image: deivisonisidoro/notification-service:latest
+          command: ["sh", "-c", "pnpm exec prisma migrate deploy && node dist/presentation/fastify/server.js"]
           envFrom:
             - configMapRef:
                 name: notification-service-config
           ports:
             - containerPort: 3002
+              name: http

@@ -4,7 +4,7 @@ metadata:
   name: notification-service
 spec:
   ports:
-    - protocol: TCP
-      port: 3002
+    - port: 3002
+      targetPort: http
   selector:
-    app: notification-service
+    app: api-gateway
