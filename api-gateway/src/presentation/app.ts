@@ -30,6 +30,9 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use('/api/', customer);
 app.use('/api/', authenticateRoutes)
+app.get('/', (req, res) => {
+  res.send('Hello, API Gateway!');
+});
 
 
 export { app }
