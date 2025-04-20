@@ -3,10 +3,10 @@ kind: ConfigMap
 metadata:
   name: notification-service-config
 data:
-  MAIL_HOST: "smtp.ethereal.email"
-  MAIL_PORT: "587"
-  MAIL_USER: "asha.champlin@ethereal.email"
-  MAIL_PASS: "qSFS9trPAzjHdQNk9q"
+  MAIL_HOST: "sandbox.smtp.mailtrap.io"
+  MAIL_PORT: "2525"
+  MAIL_USER: "93b18c8f2ae5c7"
+  MAIL_PASS: "2a9ef42df82451"
   MAIL_FROM: "your-email@example.com"
   
   DATABASE_URL: "postgresql://postgres:123@db:5432/notification_serivice?schema=public"
@@ -19,4 +19,4 @@ data:
   HOST_IP: "notification_serivice"
   API_PORT: "3002"
   KAFKA_BROKER: "kafka:9092"
-  TEMPLATE_LOCATION: "../../../src/infrastructure/templates"
+  TEMPLATE_LOCATION: "../../../dist/infrastructure/templates"

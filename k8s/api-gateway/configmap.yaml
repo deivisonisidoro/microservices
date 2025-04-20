@@ -12,3 +12,8 @@ data:
   NODE_ENV: "production"
   API_PORT: "3000"
   KAFKA_BROKER: "kafka:9092"
+  HOST_IP: "api-gateway"
+  CUSTOMER_API_URL: "http://customers-service:3001"
+  SECRET_KEY: "secret"
+  ACCESS_TOKEN_EXPIRES_IN: "1h"
+  REFRESH_TOKEN_EXPIRES_IN: "2"
