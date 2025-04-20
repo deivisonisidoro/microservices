@@ -27,7 +27,7 @@ export class GenerateRefreshTokenProvider
     const expiresIn = env.getAccessTokenExpiresIn();
 
     if (!secretKey) {
-      throw new Error('API_SECRET is missing in the environment variables.');
+      throw new Error('SECRET_KEY is missing in the environment variables.');
     }
 
     const generatedToken = sign({}, secretKey, {
